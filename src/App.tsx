@@ -1,13 +1,33 @@
-import { Button } from "./components/Button";
+import { createContext, useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+import { Home } from "./pages/Home";
+import { NewRoom } from "./pages/NewRoom";
+
+export const AuthContext = createContext({} as any);
 
 function App() {
+  const [user, setUser] = useState()
+
+  function signInWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    auth.signInWithPopup(provider).then(result => {
+      console.log(result)
+
+    })
+
+  }
+
   return (
-    <div>
-      <Button text="Botão 1" />
-      <Button />
-      <Button />
-      <Button />
-    </div>
+    <BrowserRouter>
+      <AuthContext.Provider value={{ user, setUser }}>
+        <Routes>
+          <Route path="/" element={< Home />} />
+          <Route path="/rooms/new" element={< NewRoom />} />
+        </Routes>
+      </AuthContext.Provider>
+    </BrowserRouter>
   );
 }
 
